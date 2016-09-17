@@ -21,11 +21,17 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         // if first login, call API to gather student information
-        CoreDataController.sharedInstance.fetchStudentInfo(<#T##entity: String##String#>, email: <#T##String#>)
-        let barcodeString: String = "53310"
-        let name = "John Clarke"
-        let photo: UIImage = UIImage(contentsOfFile: "/Users/jaclarke/Desktop/student-id/photos/jaclarke.jpg")!
-        let sName: String = "Regis High School"
+        
+        //let data = CoreDataController.sharedInstance.fetchStudentInfo("User", email: self.email)
+        
+        let name: String = Cache.sharedInstance.firstName + " " + Cache.sharedInstance.lastName
+        
+        let photo: UIImage = UIImage(contentsOfFile: Cache.sharedInstance.imagePath)!
+        //let photo: UIImage = UIImage(contentsOfFile: "/Users/jaclarke/Desktop/student-id/photos/jaclarke.jpg")!
+        
+        let sName: String = Cache.sharedInstance.schoolName
+        
+        let barcodeString: String = Cache.sharedInstance.barcode
         let barcode: Barcode = Barcode(barcode: barcodeString)
         let barcodePhoto = barcode.getBarcode()
         

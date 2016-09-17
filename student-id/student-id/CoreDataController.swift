@@ -16,7 +16,7 @@ class CoreDataController: NSObject {
     
     override  init() {
         // This resource is the same name as your xcdatamodeld contained in your project.
-        guard let modelURL = Bundle.main.url(forResource: "Cache", withExtension:"momd") else {
+        guard let modelURL = Bundle.main.url(forResource: "student_id", withExtension:"momd") else {
             fatalError("Error loading model from bundle")
         }
         // The managed object model for the application. It is a fatal error for the application not to be able to find and load its model.
@@ -106,11 +106,11 @@ class CoreDataController: NSObject {
                         return data
                     }
                 }
-                return [:]
             }
         } catch {
             fatalError("Failed to fetch object: \(error)")
         }
+        return [:]
     }
     
     static let sharedInstance = CoreDataController()

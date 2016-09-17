@@ -81,6 +81,7 @@
 				040760681D8D120D00B72B9A /* MainViewController.swift */,
 				040760841D8D286800B72B9A /* LoginViewController.swift */,
 				040760881D8DDD2100B72B9A /* CoreDataController.swift */,
+				0407608C1D8DEDD000B72B9A /* Cache.swift */,
 				0407607D1D8D1BCF00B72B9A /* Barcode.swift */,
 				0407608A1D8DE21500B72B9A /* Image.swift */,
 				040760861D8DD1EF00B72B9A /* Validation.swift */,
@@ -90,7 +91,6 @@
 				040760721D8D120D00B72B9A /* LaunchScreen.storyboard */,
 				040760751D8D120D00B72B9A /* Info.plist */,
 				0407606D1D8D120D00B72B9A /* student_id.xcdatamodeld */,
-				0407608C1D8DEDD000B72B9A /* Cache.swift */,
 			);
 			path = "student-id";
 			sourceTree = "<group>";
