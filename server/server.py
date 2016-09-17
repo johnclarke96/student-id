@@ -1,4 +1,6 @@
-from flask import Flask, send_file
+import json
+
+from flask import Flask, send_file, request
 from flask_sqlalchemy import SQLAlchemy
 
 import models
@@ -7,17 +9,16 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://hansonj:password@sql.mit.edu/hansonj+student_id'
 db = SQLAlchemy(app)
 
-app.route('/login/', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def login():
 
-    request_parser = reqparse.RequestParser()
-    request_parser.add_argument('email', type=str, location='json')
-    request_parser.add_argument('password', type=str, location='json')
-    request_args = request_parser.parse_args()
-    student_email = request_args['email']
-    password = request_args['password']
+    student_email = request.form['email']
+    password = request.form['password']
+    print student_email, password
 
-    student = Student.query.filter_by(email=student_email).all()
+    student = models.Student.query.filter_by(email=student_email).first()
+    print student
+    print student.first_name
 
     if student is None:
         return {'error': 'invalid email'}
@@ -25,9 +26,10 @@ def login():
     if student.password != password:
         return {'error': 'invalid password'}
 
-    student_name = student.student_name
+    first_name = student.first_name
+    last_name = student.last_name
     student_id = student.student_id
-    image_path = student.path_to_image
+    image_path = student.image_path
 
     data = {
             'first_name': first_name,
@@ -41,16 +43,13 @@ def login():
             'data': data
         }
 
-    return ret
+    return json.dumps(ret)
 
 
-app.route('/image/', methods=['GET'])
+@app.route('/image', methods=['GET'])
 def image():
-    request_parser = reqparse.RequestParser()
-    request_parser.add_argument('path', type=str)
-    request_args = request_parser.parse_args()
-    image_path = request_args['path']
-
+    image_path = request.args.get('path', None)
+    print image_path
     return send_file(image_path, mimetype='image/gif')
 
 if __name__ == "__main__":
