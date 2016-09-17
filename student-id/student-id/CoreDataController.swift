@@ -106,11 +106,11 @@ class CoreDataController: NSObject {
                         return data
                     }
                 }
-                return [:]
             }
         } catch {
             fatalError("Failed to fetch object: \(error)")
         }
+        return [:]
     }
     
     static let sharedInstance = CoreDataController()

@@ -70,10 +70,10 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="schoolName" destination="jma-4Q-bAP" id="LXo-Te-Vrm"/>
-                        <outlet property="studentBarcode" destination="gpI-JG-lQm" id="j4U-G6-S55"/>
-                        <outlet property="studentName" destination="byb-AB-TJr" id="hTd-Hh-QKA"/>
-                        <outlet property="studentPhoto" destination="1Ss-6n-Zx8" id="kVJ-MP-w1S"/>
+                        <outlet property="schoolName" destination="jma-4Q-bAP" id="NM1-xt-gl6"/>
+                        <outlet property="studentBarcode" destination="gpI-JG-lQm" id="3rN-Gs-MnB"/>
+                        <outlet property="studentName" destination="byb-AB-TJr" id="rFh-hA-4vk"/>
+                        <outlet property="studentPhoto" destination="1Ss-6n-Zx8" id="E1Z-XU-k7Z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -134,15 +134,14 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="appLabel" destination="UvO-M1-1nw" id="vrQ-Xf-iFF"/>
-                        <outlet property="emailText" destination="Wxq-2z-87M" id="x4M-d3-RJn"/>
-                        <outlet property="passwordText" destination="mHX-JX-eK7" id="Tu4-1m-t2S"/>
-                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="to-main" id="DEb-Bo-lwJ"/>
+                        <outlet property="appLabel" destination="UvO-M1-1nw" id="fFe-GF-8Ji"/>
+                        <outlet property="emailText" destination="Wxq-2z-87M" id="i65-wA-0A6"/>
+                        <outlet property="passwordText" destination="mHX-JX-eK7" id="6L0-DQ-sVf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QeL-vA-VEr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-687.20000000000005" y="138.98050974512745"/>
+            <point key="canvasLocation" x="-1031" y="139"/>
         </scene>
     </scenes>
 </document>

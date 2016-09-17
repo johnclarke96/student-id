@@ -57,61 +57,58 @@ class LoginViewController: UIViewController {
                 self.passwordText.text = ""
             })
         }
-        self.performSegue(withIdentifier: "to-main", sender: self)
-        //else {
-        // check coredata if ID saved with entered email; if not call API, otherwise don't
-            //self.email = emailString
-            //let http = HTTPRequests(host: "localhost", port: "5000", resource: "login", params: ["email": emailString, "password" : passwordString])
-            //http.POST({ (json) -> Void in
-                //let success = json["success"] as! Int
-                //let data = json["data"] as! [String:AnyObject]
-                //if (success == 1) {
-                    // let firstName = data["first_name"] as! String
-                    // let lastName = data["last_name"] as! String
-                    // let studentID = data["student_id"] as! String
-                    // let imagePath = data["image_path"] as! String
-                    // let schoolName = data["school_name"] as! String
-                    // let imageIdentifier = schoolName + studentID + ".png"
-                    //OperationQueue.main.addOperation { // must call this on main thread because the callback from http post is running
-                        //self.emailText.text = ""
-                        //self.passwordText.text = ""
-        
-                        // hit nginx server to gather the image
-        
-                        let imagePath = ""
-                        let imageIdentifier = ""
-                        let image = Image(imageURL: imagePath, identifier: imageIdentifier)
-        image.getImageAndSaveToDisk({ (iosPath) -> Void in
-            //let data = ["firstName" : firstName, "lastName" : lastName, "schoolName" : schoolName, "studentID" : studentID, "imagePath" : iosPath, "email" : emailString]
-            //CoreDataController.sharedInstance.saveToCoreData("User", data: data)
-        })
-                        //self.performSegue(withIdentifier: "to-main", sender: self)
-                    //}
-                //} else {
-                    //let error = data["error"] as! String
-                    //let loginAlert = UIAlertController(title: "Login Issue", message: error, preferredStyle: UIAlertControllerStyle.alert)
-                    //let loginAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                    //loginAlert.addAction(loginAction)
-                    //OperationQueue.main.addOperation {
-                        //self.present(loginAlert, animated: true, completion: { () -> Void in
-                            //self.emailText.text = ""
-                            //self.passwordText.text = ""
-                        //})
-                    //}
-                //}
-            //})
-        //}
+        else {
+            // check coredata if ID saved with entered email; if not call API, otherwise don't
+            let data = CoreDataController.sharedInstance.fetchStudentInfo("User", email: emailString)
+            self.email = emailString
+            if (data.isEmpty) {
+                let http = HTTPRequests(host: "localhost", port: "5000", resource: "login", params: ["email": emailString, "password" : passwordString])
+                http.POST({ (json) -> Void in
+                    let success = json["success"] as! Int
+                    let data = json["data"] as! [String:AnyObject]
+                    if (success == 1) {
+                        // save gathered information to coredata
+                        let firstName = data["first_name"] as! String
+                        let lastName = data["last_name"] as! String
+                        let studentID = data["student_id"] as! String
+                        let imagePath = data["image_path"] as! String
+                        let schoolName = data["school_name"] as! String
+                        let imageIdentifier = schoolName + studentID + ".png"
+                        
+                        OperationQueue.main.addOperation {
+                            self.emailText.text = ""
+                            self.passwordText.text = ""
+                            
+                            let image = Image(imageURL: imagePath, identifier: imageIdentifier)
+                            image.getImageAndSaveToDisk( { (iosPath) -> Void in
+                                let data = ["firstName" : firstName, "lastName" : lastName, "schoolName" : schoolName, "studentID" : studentID, "imagePath" : iosPath, "email" : emailString]
+                                CoreDataController.sharedInstance.saveToCoreData("User", data: data)
+                                Cache.initCache(firstName: firstName, lastName: lastName, studentID: studentID, schoolName: schoolName, imagePath: iosPath, barcode: studentID)
+                            })
+                            self.performSegue(withIdentifier: "to-main", sender: self)
+                        }
+                    } else {
+                        let error = data["error"] as! String
+                        let loginAlert = UIAlertController(title: "Login Issue", message: error, preferredStyle: UIAlertControllerStyle.alert)
+                        let loginAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                        loginAlert.addAction(loginAction)
+                        OperationQueue.main.addOperation {
+                            self.present(loginAlert, animated: true, completion: { () -> Void in
+                                self.emailText.text = ""
+                                self.passwordText.text = ""
+                            })
+                        }
+                    }
+                })
+            }
+        }
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "to-main" {
             let destination = segue.destination as! MainViewController
             destination.email = self.email
         }
-        //if segue.identifier == "to-signup" {
-            //let destination = segue.destination as! SignupViewController
-            //destination.delegate = self
-        //}
     }
     
     // clicking out of email, password fields dismisses the keyboard
