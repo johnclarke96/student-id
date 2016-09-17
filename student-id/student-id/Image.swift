@@ -25,7 +25,7 @@ class Image {
         Alamofire.request(self.imageURL).responseData { response in
             if let data = response.result.value {
                 let image = UIImage(data: data, scale: 1)!
-                if let data = UIImagePNGRepresentation(image) {
+                if let data = UIImageJPEGRepresentation(image, 0.8) {
                     let directory = Image.getDocumentsDirectory().appendingPathComponent("sid")
                     let filename = directory.appendingPathComponent(self.identifier)
                     try? data.write(to: filename)

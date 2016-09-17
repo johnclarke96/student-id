@@ -62,7 +62,7 @@ class LoginViewController: UIViewController {
             let data = CoreDataController.sharedInstance.fetchStudentInfo("User", email: emailString)
             self.email = emailString
             if (data.isEmpty) {
-                let http = HTTPRequests(host: "localhost", port: "5000", resource: "login", params: ["email": emailString, "password" : passwordString])
+                let http = HTTPRequests(host: "18.189.104.176", port: "5000", resource: "login", params: ["email": emailString, "password" : passwordString])
                 http.POST({ (json) -> Void in
                     let success = json["success"] as! Int
                     let data = json["data"] as! [String:AnyObject]
@@ -73,13 +73,14 @@ class LoginViewController: UIViewController {
                         let studentID = data["student_id"] as! String
                         let imagePath = data["image_path"] as! String
                         let schoolName = data["school_name"] as! String
-                        let imageIdentifier = schoolName + studentID + ".png"
+                        let imageIdentifier = schoolName + studentID + ".jpg"
                         
                         OperationQueue.main.addOperation {
                             self.emailText.text = ""
                             self.passwordText.text = ""
                             
-                            let image = Image(imageURL: imagePath, identifier: imageIdentifier)
+                            let imageURL = "18.189.104.176" + ":" + "5000" + "/image?path=" + imagePath
+                            let image = Image(imageURL: imageURL, identifier: imageIdentifier)
                             image.getImageAndSaveToDisk( { (iosPath) -> Void in
                                 let data = ["firstName" : firstName, "lastName" : lastName, "schoolName" : schoolName, "studentID" : studentID, "imagePath" : iosPath, "email" : emailString]
                                 CoreDataController.sharedInstance.saveToCoreData("User", data: data)
