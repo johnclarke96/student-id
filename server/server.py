@@ -52,3 +52,6 @@ def image():
     image_path = request_args['path']
 
     return send_file(image_path, mimetype='image/gif')
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
