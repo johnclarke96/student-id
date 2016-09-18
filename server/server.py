@@ -70,7 +70,6 @@ def password_reset():
         session1.commit()
 
         send_mail(email, random_key)
-        print student.secret_key
 
         return json.dumps({'success': 1, 'message': 'Sent email to change pasword'})
 
@@ -83,14 +82,10 @@ def change_password():
 
     if request.method == 'POST':
         newpass = request.form['newpass']
-        print newpass
         secret_key = request.form['secret_key']
-        print 'here'
-        print secret_key
 
         session1 = db.create_session({})
         student = session1.query(models.Student).filter_by(secret_key=secret_key).one()
-        print student
 
         if student is None:
             return render_template('html/error.html')
@@ -104,7 +99,6 @@ def change_password():
 @app.route('/image', methods=['GET'])
 def image():
     image_path = request.args.get('path', None)
-    print image_path
     return send_file(image_path, mimetype='image/gif')
 
 
@@ -175,7 +169,6 @@ def delete():
     primary_key = request.form['primary_key']
     session1 = db.create_session({})
     user = session1.query(models.Student).filter_by(id=primary_key).first()
-    print(user)
     session1.delete(user)
     session1.commit()
     return redirect(url_for('display_data'))
