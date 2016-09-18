@@ -1,0 +1,44 @@
+<style>
+ul {
+    margin: 0;
+    padding: 0;
+    text-align: center
+}
+li {
+    display: inline;
+    list-style: none; 
+}
+a
+{
+    display:inline-block;
+    margin-right: -4px;
+    width:120px;
+    text-align:center;
+    padding:4px;
+    color:black;
+}
+a:link {
+    text-decoration: none;
+    color:black;
+}
+
+a:visited {
+    text-decoration: none;
+    color:black;
+}
+.bottom {
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    width:100%;
+}
+</style>
+</head>
+<body bgcolor="#239B56">
+
+<ul>
+  <li><a style="font-size:120%;" href="photos.html">Photos</a></li>
+  <li><a style="font-size:120%;" href="tour_dates.html">Tour Dates</a></li>
+  <li><a style="font-size:120%;" href="contact.html">Contact</a></li>
+  <li><a style="font-size:120%;" href="releases.html">Releases</a></li>
+</ul>

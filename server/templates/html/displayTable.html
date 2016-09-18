@@ -36,7 +36,7 @@ a:link {
 }
 
 a:visited {
-    text-decoration: none;
+    text-decoration: blue;
 }
 </style>
 </head>
@@ -52,6 +52,7 @@ a:visited {
     <th>Student ID #</th>
     <th>Email</th>
     <th>Image Path</th>
+    <th>Delete?</th>
   </tr>
 {% for row in data %}
   <tr>
@@ -61,6 +62,7 @@ a:visited {
     <th>{{ row.student_id }}</th>
     <th>{{ row.email }}</th>
     <th><img src="{{ row.image_path }}"></th>
+    <th><a href="/student/delete"><img src="templates/images/Delete-48.png"></a></th>
   </tr>
 {% endfor %}
 </table>
