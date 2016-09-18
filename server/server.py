@@ -13,34 +13,18 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://hansonj:password@sql.mit.edu/ha
 db = SQLAlchemy(app)
 
 import models
-domain = '0.0.0.0:5000/' #Enter domain of site
 
-def get_secret_key():
-    return str(random.randint(0,10000000))
+domain = '52.27.186.224/' #Enter domain of site
 
-def send_mail(to, secret_key):
-    gmail_user = 'thestudentidapp@gmail.com'
-    gmail_pass = 'studentidpassword'
-    smtpserver = smtplib.SMTP("smtp.gmail.com",587)
-    smtpserver.ehlo()
-    smtpserver.starttls()
-    smtpserver.ehlo
-    smtpserver.login(gmail_user, gmail_pass)
-    msg = 'Change Student ID app at:\n' + domain + '?secret_key=' + secret_key
-    smtpserver.sendmail(gmail_user, to, msg)
-    smtpserver.close()
+
 
 @app.route('/login', methods=['POST'])
 def login():
-    for i in request.form:
-        print i
 
     student_email = request.form['email']
     password = request.form['password']
-    print student_email, password
 
     student = models.Student.query.filter_by(email=student_email).first()
-    print student
 
     if student is None:
         return json.dumps({'success':0, 'data': {'error': 'invalid email'}})
@@ -124,6 +108,9 @@ def image():
     print image_path
     return send_file(image_path, mimetype='image/gif')
 
+
+
+
 # CMS
 @app.route('/')
 def go_home():
@@ -148,8 +135,11 @@ def admin_login():
 @app.route('/display_data', methods=['GET'])
 def display_data():
     data =  models.Student.query.all()
-    return render_template('html/displayTable.html', data=data)   
+    return render_template('html/displayTable.html', data=data)
 
+
+
+#### CREATING AND DELETING WITH ADMIN PRIVLEDGES
 @app.route('/student', methods=['POST', 'GET'])
 def student():
     if request.method == 'GET':
@@ -172,9 +162,10 @@ def student():
 
         send_mail(email, secret_key)
 
+        # Uploading file
         student_picture = request.files['file']
         filename = secure_filename(str(student_id) + '.jpg')
-        student_picture.save(os.path.join('/srv/student_id/mit/',filename))
+        student_picture.save(os.path.join('/srv/student_id/' + school_name.lower() + '/',filename))
 
         return redirect(url_for('display_data'))
 
@@ -188,6 +179,25 @@ def delete():
     db.session.delete(user)
     db.session.commit()
     return redirect(url_for('display_data'))
+
+
+# Helper functions
+def get_secret_key():
+    return str(random.randint(0,10000000))
+
+def send_mail(to, secret_key):
+    gmail_user = 'thestudentidapp@gmail.com'
+    gmail_pass = 'studentidpassword'
+    smtpserver = smtplib.SMTP("smtp.gmail.com",587)
+    smtpserver.ehlo()
+    smtpserver.starttls()
+    smtpserver.ehlo
+    smtpserver.login(gmail_user, gmail_pass)
+    msg = 'Change Student ID app at:\nhttp://' + domain + 'password?secret_key=' + secret_key
+    smtpserver.sendmail(gmail_user, to, msg)
+    smtpserver.close()
+
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
