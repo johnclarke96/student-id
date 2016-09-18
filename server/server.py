@@ -1,5 +1,6 @@
 import json
 import smtplib
+import requests
 
 from flask import Flask, send_file, request, render_template
 from flask_sqlalchemy import SQLAlchemy
@@ -24,6 +25,7 @@ def send_mail(to, secret_key):
     smtpserver.sendmail(gmail_user, to, msg)
     smtpserver.close()
 
+
 @app.route('/login', methods=['POST'])
 def login():
     for i in request.form:
@@ -35,7 +37,6 @@ def login():
 
     student = models.Student.query.filter_by(email=student_email).first()
     print student
-    print student.first_name
 
     if student is None:
         return {'error': 'invalid email'}
@@ -120,6 +121,37 @@ def image():
     image_path = request.args.get('path', None)
     print image_path
     return send_file(image_path, mimetype='image/gif')
+
+
+
+
+
+
+# CMS
+@app.route('/student', methods=['POST', 'GET'])
+def student():
+    if request.method == 'GET':
+        return render_template('html/inputStudent.html')
+    if request.method == 'POST':
+        print 'here'
+        for i in request.form:
+            print i
+        first_name = request.form['firstname']
+        last_name = request.form['lastname']
+        email = request.form['email']
+        student_id = request.form['studentid']
+        school_name = request.form['schoolname']
+        print first_name
+
+        new_student = models.Student(first_name, last_name, student_id, email, school_name)
+
+        db.session.add(new_student)
+        db.session.commit()
+
+        requests.post(domain + 'student', data={'email':email})
+
+        return 'success'
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)

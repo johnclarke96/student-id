@@ -17,14 +17,13 @@ class Student(db.Model):
 
     image_path = db.Column(db.String(200), unique=True)
 
-    def __init__(self, first_name, last_name, student_id, email, school_name, password):
+    def __init__(self, first_name, last_name, student_id, email, school_name):
         self.first_name = first_name
         self.last_name = last_name
         self.student_id = student_id
         self.school_name = school_name
 
         self.email = email
-        self.password = password
 
         self.image_path = '/srv/student_id/' + school_name.lower() + '/' + student_id + '.jpg'
 
