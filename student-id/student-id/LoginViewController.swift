@@ -20,6 +20,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         // if first login, call API to gather student information
+        CoreDataController.sharedInstance.clearCoreData(["User"])
         appLabel.text = "sid"
     }
     
@@ -34,7 +35,7 @@ class LoginViewController: UIViewController {
         let passwordString = passwordText.text!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         
         // password range: 8-20 characters
-        let pLo = 8
+        let pLo = 6
         let pHi = 20
         
         // in the event of a validation failure, a UIAlertAction will present itself and clear the username and password fields
@@ -62,32 +63,32 @@ class LoginViewController: UIViewController {
             let data = CoreDataController.sharedInstance.fetchStudentInfo("User", email: emailString)
             self.email = emailString
             if (data.isEmpty) {
-                let http = HTTPRequests(host: "18.189.104.176", port: "5000", resource: "login", params: ["email": emailString, "password" : passwordString])
+                let http = HTTPRequests(host: "18.111.86.205", port: "5000", resource: "login", params: ["email": emailString, "password" : passwordString])
                 http.POST({ (json) -> Void in
                     let success = json["success"] as! Int
                     let data = json["data"] as! [String:AnyObject]
                     if (success == 1) {
                         // save gathered information to coredata
+                        print("unwrapped data")
                         let firstName = data["first_name"] as! String
                         let lastName = data["last_name"] as! String
-                        let studentID = data["student_id"] as! String
+                        let studentID = String(describing: data["student_id"]!)
                         let imagePath = data["image_path"] as! String
                         let schoolName = data["school_name"] as! String
                         let imageIdentifier = schoolName + studentID + ".jpg"
                         
-                        OperationQueue.main.addOperation {
-                            self.emailText.text = ""
-                            self.passwordText.text = ""
-                            
-                            let imageURL = "18.189.104.176" + ":" + "5000" + "/image?path=" + imagePath
-                            let image = Image(imageURL: imageURL, identifier: imageIdentifier)
-                            image.getImageAndSaveToDisk( { (iosPath) -> Void in
-                                let data = ["firstName" : firstName, "lastName" : lastName, "schoolName" : schoolName, "studentID" : studentID, "imagePath" : iosPath, "email" : emailString]
-                                CoreDataController.sharedInstance.saveToCoreData("User", data: data)
-                                Cache.initCache(firstName: firstName, lastName: lastName, studentID: studentID, schoolName: schoolName, imagePath: iosPath, barcode: studentID)
-                            })
-                            self.performSegue(withIdentifier: "to-main", sender: self)
-                        }
+                        let imageURL = "http://18.111.86.205" + ":" + "5000" + "/image?path=" + imagePath
+                        let image = Image(imageURL: imageURL, identifier: imageIdentifier)
+                        image.getImageAndSaveToDisk( { (iosPath) -> Void in
+                            let data = ["firstName" : firstName, "lastName" : lastName, "schoolName" : schoolName, "studentID" : studentID, "imagePath" : iosPath, "email" : emailString]
+                            CoreDataController.sharedInstance.saveToCoreData("User", data: data)
+                            Cache.initCache(firstName: firstName, lastName: lastName, studentID: studentID, schoolName: schoolName, imagePath: iosPath, barcode: studentID)
+                            OperationQueue.main.addOperation {
+                                self.emailText.text = ""
+                                self.passwordText.text = ""
+                                self.performSegue(withIdentifier: "to-main", sender: self)
+                            }
+                        })
                     } else {
                         let error = data["error"] as! String
                         let loginAlert = UIAlertController(title: "Login Issue", message: error, preferredStyle: UIAlertControllerStyle.alert)
