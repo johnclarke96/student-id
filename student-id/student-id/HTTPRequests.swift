@@ -31,7 +31,7 @@ class HTTPRequests {
                 let data = data as! [String:AnyObject]
                 callback(data)
             case .failure(let error):
-                print("Request failed with error: \(error)")
+                print(error)
             }
         }
     }
