@@ -15,11 +15,8 @@ db = SQLAlchemy(app)
 import models
 domain = '0.0.0.0:5000/' #Enter domain of site
 
-
 def get_secret_key():
     return str(random.randint(0,10000000))
-
-
 
 def send_mail(to, secret_key):
     gmail_user = 'thestudentidapp@gmail.com'
@@ -94,8 +91,6 @@ def password_reset():
 
         return json.dumps({'success': 1, 'message': 'Sent email to change pasword'})
 
-
-
 @app.route('/password', methods=['GET', 'POST'])
 def change_password():
 
@@ -123,17 +118,23 @@ def change_password():
 
         return render_template('html/success.html')
 
-
-
 @app.route('/image', methods=['GET'])
 def image():
     image_path = request.args.get('path', None)
     print image_path
     return send_file(image_path, mimetype='image/gif')
 
-
-
 # CMS
+@app.route('/')
+def go_home():
+    return render_template('html/index.html')
+
+@app.route('/admin')
+@app.route('/display_data', methods=['GET'])
+def display_data():
+    data =  models.Student.query.all()
+    return render_template('html/displayTable.html', data=data)   
+
 @app.route('/student', methods=['POST', 'GET'])
 def student():
     if request.method == 'GET':
@@ -160,8 +161,8 @@ def student():
         filename = secure_filename(str(student_id) + '.jpg')
         student_picture.save(os.path.join('/srv/student_id/mit/',filename))
 
+        return redirect(url_for('display_data'))
 
-        return 'success'
 @app.route('/student/delete', methods=['POST'])
 def delete():
     primary_key = request.form['primary_key']
@@ -169,12 +170,6 @@ def delete():
     db.session.delete(user)
     db.session.commit()
     return redirect(url_for('display_data'))
-
-
-@app.route('/display_data', methods=['GET'])
-def display_data():
-   data =  models.Student.query.all()
-   return render_template('html/displayTable.html', data=data)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
