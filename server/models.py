@@ -12,6 +12,7 @@ class Student(db.Model):
 
     email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(40))
+    secret_key = db.Column(db.String(120), unique=True)
 
     image_path = db.Column(db.String(200), unique=True)
 
@@ -24,7 +25,20 @@ class Student(db.Model):
         self.email = email
         self.password = password
 
-        self.image_path = '/srv/student_id/' + school_name + '/' + student_id + '.jpg'
+        self.image_path = '/srv/student_id/' + school_name.lower() + '/' + student_id + '.jpg'
+
+    def change_password(newpass):
+        self.password = newpass
 
     def __repr__(self):
         return '<User %r>' % self.email
+
+
+#class Admin(db.Model):
+
+    #id = db.Column(db.Integer, primary_key=True)
+
+    #email = db.Column(db.String(120), unique=True)
+    #password = db.Column(db.String(40))
+
+

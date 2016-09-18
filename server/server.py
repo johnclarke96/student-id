@@ -1,4 +1,5 @@
 import json
+import smtplib
 
 from flask import Flask, send_file, request
 from flask_sqlalchemy import SQLAlchemy
@@ -48,6 +49,42 @@ def login():
         }
 
     return json.dumps(ret)
+
+
+#@app.route('/password', methods=['GET', 'POST', 'PUT'])
+#def change_password():
+
+    if request.method == 'POST':
+
+        email = request.form['email']
+        student = models.Student.query.filter_by(email=email).first()
+
+        if student is None:
+            return {'success': 0, 'error': 'Email is not associated with an account'}
+
+        random_key = al;ksjdf
+        student.secret_key = random_key
+
+
+
+#    if request.method == 'GET':
+#        return render_template('/html/changepass.html')
+
+    if request.method == 'PUT':
+        newpass = request.form['newpass']
+        secret_key = request.args.get('secret_key', None)
+
+        student = models.Student.query.filter_by(secret_key=secret_key).first()
+
+        if student is None:
+            return render_template('html/error.html')
+
+        student.change_password(newpass)
+        return render_template('html/success.html')
+
+
+
+
 
 
 @app.route('/image', methods=['GET'])
