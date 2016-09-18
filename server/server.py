@@ -129,7 +129,22 @@ def image():
 def go_home():
     return render_template('html/index.html')
 
-@app.route('/admin')
+@app.route('/admin', methods=['POST'])
+def admin_login():
+    if request.method == "POST":
+        username = request.form['username']
+        password = request.form['password']
+
+        admin = models.Admin.query.filter_by(username=username).first()
+
+        if admin is None:
+            return "this admin username does not exist."
+
+        if admin.password != password:
+            return "the admin password is incorrect."
+
+        return redirect(url_for('display_data'))
+
 @app.route('/display_data', methods=['GET'])
 def display_data():
     data =  models.Student.query.all()
@@ -165,8 +180,11 @@ def student():
 
 @app.route('/student/delete', methods=['POST'])
 def delete():
+
     primary_key = request.form['primary_key']
-    user = models.Student.get(primary_key)
+    print(primary_key)
+    user = models.Student.query.filter_by(id=primary_key)
+    print(user)
     db.session.delete(user)
     db.session.commit()
     return redirect(url_for('display_data'))

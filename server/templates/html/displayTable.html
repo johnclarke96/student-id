@@ -62,7 +62,11 @@ a:visited {
     <th>{{ row.student_id }}</th>
     <th>{{ row.email }}</th>
     <th><img src="/image?path={{ row.image_path }}"></th>
-    <th><a href="/student/delete"><img src="templates/images/Delete-48.png"></a></th>
+    <th>
+    	<form action="/student/delete" method="post">
+  			<button type="submit" name="primary_key" value="{{ row.id }}">Yes</button>
+		</form>
+	</th>
   </tr>
 {% endfor %}
 </table>
