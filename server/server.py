@@ -64,13 +64,12 @@ def password_reset():
 
         random_key = get_secret_key()
         session1 = db.create_session({})
-        student = session1.query(models.Student).filter_by(email=email).one()
+        student = session1.query(models.Student).filter_by(email=email).first()
         student.secret_key = random_key
 
         session1.commit()
 
-        newpass_url = domain + '?secret_key=' + random_key
-        send_mail(email, newpass_url)
+        send_mail(email, random_key)
         print student.secret_key
 
         return json.dumps({'success': 1, 'message': 'Sent email to change pasword'})
@@ -175,7 +174,7 @@ def delete():
 
     primary_key = request.form['primary_key']
     session1 = db.create_session({})
-    user = session1.query(models.Student).filter_by(id=primary_key).one()
+    user = session1.query(models.Student).filter_by(id=primary_key).first()
     print(user)
     session1.delete(user)
     session1.commit()
