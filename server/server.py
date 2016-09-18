@@ -38,10 +38,10 @@ def login():
     print student.first_name
 
     if student is None:
-        return {'error': 'invalid email'}
+        return {'success': 0,'error': 'invalid email'}
 
     if student.password != password:
-        return {'error': 'invalid password'}
+        return {'success': 0,'error': 'invalid password'}
 
     first_name = student.first_name
     last_name = student.last_name
