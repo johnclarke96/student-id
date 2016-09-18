@@ -2,6 +2,7 @@ from server import db
 
 class Student(db.Model):
 
+
     id = db.Column(db.Integer, primary_key=True)
 
     # Student info
@@ -16,7 +17,7 @@ class Student(db.Model):
 
     image_path = db.Column(db.String(200), unique=True)
 
-    def __init__(self, first_name, last_name, student_id, email, password):
+    def __init__(self, first_name, last_name, student_id, email, school_name, password):
         self.first_name = first_name
         self.last_name = last_name
         self.student_id = student_id
@@ -26,9 +27,6 @@ class Student(db.Model):
         self.password = password
 
         self.image_path = '/srv/student_id/' + school_name.lower() + '/' + student_id + '.jpg'
-
-    def change_password(newpass):
-        self.password = newpass
 
     def __repr__(self):
         return '<User %r>' % self.email

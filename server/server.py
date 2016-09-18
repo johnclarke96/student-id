@@ -4,12 +4,12 @@ import smtplib
 from flask import Flask, send_file, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://hansonj:password@sql.mit.edu/hansonj+student_id'
 db = SQLAlchemy(app)
 
 import models
-
 domain = '0.0.0.0:5000/' #Enter domain of site
 
 def send_mail(to, secret_key):
@@ -76,10 +76,10 @@ def password_reset():
 
         random_key = 'random_key'
         student.secret_key = random_key
+        db.session.commit()
         newpass_url = domain + '?secret_key=' + random_key
         send_mail(email, random_key)
         print student.secret_key
-        db.session.commit()
 
         return json.dumps({'success': 1, 'message': 'Sent email to change pasword'})
 
@@ -89,20 +89,25 @@ def password_reset():
 def change_password():
 
     if request.method == 'GET':
-        return render_template('html/changepass.html')
+        secret_key = request.args.get('secret_key')
+        return render_template('html/changepass.html', secret_key=secret_key)
 
     if request.method == 'POST':
         newpass = request.form['newpass']
         print newpass
-        secret_key = request.args.get('secret_key', None)
+        secret_key = request.form['secret_key']
+        print 'here'
+        print secret_key
 
         student = models.Student.query.filter_by(secret_key=secret_key).first()
+        print student
 
         if student is None:
             return render_template('html/error.html')
 
-        student.change_password(newpass)
+        student.password = newpass
         db.session.commit()
+        print student.password
         return render_template('html/success.html')
 
 
