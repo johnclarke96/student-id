@@ -1,8 +1,8 @@
 import json
 import smtplib
-import requests
+import random
 
-from flask import Flask, send_file, request, render_template
+from flask import Flask, send_file, request, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -12,6 +12,12 @@ db = SQLAlchemy(app)
 
 import models
 domain = '0.0.0.0:5000/' #Enter domain of site
+
+
+def get_secret_key():
+    return str(random.randint(0,10000000))
+
+
 
 def send_mail(to, secret_key):
     gmail_user = 'thestudentidapp@gmail.com'
@@ -39,10 +45,10 @@ def login():
     print student
 
     if student is None:
-        return json.dumps({'success':0, 'error': 'invalid email'})
+        return json.dumps({'success':0, 'data': {'error': 'invalid email'}})
 
     if student.password != password:
-        return json.dumps({'success': 0,'error': 'invalid password'})
+        return json.dumps({'success': 0, 'data': {'error': 'invalid password'}})
 
     first_name = student.first_name
     last_name = student.last_name
@@ -73,13 +79,17 @@ def password_reset():
         student = models.Student.query.filter_by(email=email).first()
 
         if student is None:
-            return {'success': 0, 'message': 'Email is not associated with an account'}
+            return json.dumps({'success': 0, 'message': 'Email is not associated with an account'})
 
-        random_key = 'random_key'
+        random_key = get_secret_key()
+        session1 = db.create_session({})
+        student = session1.query(models.Student).filter_by(email=email).one()
         student.secret_key = random_key
-        db.session.commit()
+
+        session1.commit()
+
         newpass_url = domain + '?secret_key=' + random_key
-        send_mail(email, random_key)
+        send_mail(email, newpass_url)
         print student.secret_key
 
         return json.dumps({'success': 1, 'message': 'Sent email to change pasword'})
@@ -100,15 +110,17 @@ def change_password():
         print 'here'
         print secret_key
 
-        student = models.Student.query.filter_by(secret_key=secret_key).first()
+        session1 = db.create_session({})
+        student = session1.query(models.Student).filter_by(secret_key=secret_key).one()
         print student
 
         if student is None:
             return render_template('html/error.html')
 
         student.password = newpass
-        db.session.commit()
-        print student.password
+        student.secret_key = None
+        session1.commit()
+
         return render_template('html/success.html')
 
 
@@ -145,10 +157,13 @@ def student():
 
         new_student = models.Student(first_name, last_name, student_id, email, school_name)
 
+        secret_key = get_secret_key()
+        new_student.secret_key = secret_key
+
         db.session.add(new_student)
         db.session.commit()
 
-        requests.post(domain + 'student', data={'email':email})
+        send_mail(email, secret_key)
 
         return 'success'
 
