@@ -3,7 +3,7 @@
 <title>input student</title>
 </head>
 <body>
-<form action="student" method="post">
+<form action="student" method="post" enctype = "multipart/form-data">
   First name:<br>
   <input type="text" name="firstname"><br>
   Last name:<br>
@@ -15,8 +15,8 @@
   Student Email #:<br>
   <input type="text" name="email"><br>
   Student Photo:<br>
-  <input type="file" name="pic" accept="image/*"><br><br>
-  <input type="submit" value="Submit">
+  <input type="file" name="file" accept="image/*"><br><br>
+  <input type="submit" value="Upload">
 </form>
 </body>
 </html>

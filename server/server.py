@@ -1,9 +1,11 @@
 import json
 import smtplib
 import random
+import os
 
 from flask import Flask, send_file, request, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug import secure_filename
 
 
 app = Flask(__name__)
@@ -71,10 +73,6 @@ def login():
 
     return json.dumps(ret)
 
-@app.route('/display_data', methods=['GET'])
-def display_data():
-   data =  models.Student.query.all()
-   return render_template('html/displayTable.html', data=data)
 
 @app.route('/password_reset', methods=['POST'])
 def password_reset():
@@ -149,15 +147,11 @@ def student():
     if request.method == 'GET':
         return render_template('html/inputStudent.html')
     if request.method == 'POST':
-        print 'here'
-        for i in request.form:
-            print i
         first_name = request.form['firstname']
         last_name = request.form['lastname']
         email = request.form['email']
         student_id = request.form['studentid']
         school_name = request.form['schoolname']
-        print first_name
 
         new_student = models.Student(first_name, last_name, student_id, email, school_name)
 
@@ -168,6 +162,11 @@ def student():
         db.session.commit()
 
         send_mail(email, secret_key)
+
+        student_picture = request.files['file']
+        filename = secure_filename(str(student_id) + '.jpg')
+        student_picture.save(os.path.join('/srv/student_id/mit/',filename))
+
 
         return 'success'
 
