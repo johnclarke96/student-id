@@ -159,6 +159,7 @@ def student():
 
         db.session.add(new_student)
         db.session.commit()
+        db.session.close()
 
         send_mail(email, secret_key)
 
@@ -173,11 +174,11 @@ def student():
 def delete():
 
     primary_key = request.form['primary_key']
-    print(primary_key)
-    user = models.Student.query.filter_by(id=primary_key)
+    session1 = db.create_session({})
+    user = session1.query(models.Student).filter_by(id=primary_key).one()
     print(user)
-    db.session.delete(user)
-    db.session.commit()
+    session1.delete(user)
+    session1.commit()
     return redirect(url_for('display_data'))
 
 
