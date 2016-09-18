@@ -20,7 +20,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         // if first login, call API to gather student information
-        CoreDataController.sharedInstance.clearCoreData(["User"])
+        //CoreDataController.sharedInstance.clearCoreData(["User"])
         appLabel.text = "sid"
     }
     
@@ -69,7 +69,6 @@ class LoginViewController: UIViewController {
                     let data = json["data"] as! [String:AnyObject]
                     if (success == 1) {
                         // save gathered information to coredata
-                        print("unwrapped data")
                         let firstName = data["first_name"] as! String
                         let lastName = data["last_name"] as! String
                         let studentID = String(describing: data["student_id"]!)
@@ -82,7 +81,7 @@ class LoginViewController: UIViewController {
                         image.getImageAndSaveToDisk( { (iosPath) -> Void in
                             let data = ["firstName" : firstName, "lastName" : lastName, "schoolName" : schoolName, "studentID" : studentID, "imagePath" : iosPath, "email" : emailString]
                             CoreDataController.sharedInstance.saveToCoreData("User", data: data)
-                            Cache.initCache(firstName: firstName, lastName: lastName, studentID: studentID, schoolName: schoolName, imagePath: iosPath, barcode: studentID)
+                            Cache.initCache(firstName: firstName, lastName: lastName, studentID: studentID, schoolName: schoolName, imagePath: iosPath)
                             OperationQueue.main.addOperation {
                                 self.emailText.text = ""
                                 self.passwordText.text = ""
@@ -102,6 +101,14 @@ class LoginViewController: UIViewController {
                         }
                     }
                 })
+            } else {
+                Cache.initCache(firstName: data["firstName"]!, lastName: data["lastName"]!, studentID: data["studentID"]!, schoolName: data["schoolName"]!, imagePath: data["imagePath"]!)
+                print(data)
+                OperationQueue.main.addOperation {
+                    self.emailText.text = ""
+                    self.passwordText.text = ""
+                    self.performSegue(withIdentifier: "to-main", sender: self)
+                }
             }
         }
     }
