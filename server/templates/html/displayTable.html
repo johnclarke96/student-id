@@ -1,0 +1,13 @@
+<html>
+<head>
+<title>display table</title>
+</head>
+<body>
+<h1>MIT Student Database</h1>
+{% for row in table %}
+{{ row }}
+<!--{{ row.firstname }} {{ row.lastname }} {{ row.schoolname }} {{ row.studentid }} {{ row.studentphoto }} -->
+<br>
+{% endfor %}
+</body>
+</html>
