@@ -1,15 +1,35 @@
 <html>
 <head>
 <title>input student</title>
+<style>
+a
+{
+    display:inline-block;
+    margin-right: -4px;
+    padding:0px;
+    color:blue;
+}
+a:link {
+    text-decoration: black;
+    color:blue;
+}
+
+a:visited {
+    text-decoration: blue;
+}
+</style>
 </head>
 <body>
+<b><a href="/display_data">Back to MIT Database</a>
+<br>
+<br>
 <form action="student" method="post" enctype = "multipart/form-data">
   First name:<br>
-  <input type="text" name="firstname"><br>
+  <input type="text" name="firstname"><br><br>
   Last name:<br>
-  <input type="text" name="lastname"><br>
+  <input type="text" name="lastname"><br><br>
   School name:<br>
-  <input type="text" name="schoolname"><br>
+  <input type="text" name="schoolname"><br><br>
   Student ID #:<br>
   <input type="text" name="studentid"><br> 
   Student Email #:<br>

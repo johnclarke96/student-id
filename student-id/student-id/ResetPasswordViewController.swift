@@ -9,7 +9,10 @@
 import UIKit
 
 class ResetPasswordViewController: UIViewController {
+    
 
+    @IBOutlet weak var email: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,6 +25,27 @@ class ResetPasswordViewController: UIViewController {
     }
     
 
+    @IBAction func resetPassword(_ sender: AnyObject) {
+        let emailString = email.text!
+        if (Validation.isValidEmail(testStr: emailString)) {
+            let message: String = "An email to change your password will be sent to " + email.text! + "."
+            let alert = UIAlertController(title: "Request Password Change", message: message, preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(action)
+            self.present(alert, animated: true, completion: {
+                let params = ["email": self.email.text!]
+                let http = HTTPRequests(host: "52.27.186.224", port: "5000", resource: "password_reset", params: params)
+                http.POST({ (json) -> Void in
+                    let message1 = json["message"] as! String
+                    let alert1 = UIAlertController(title: "Request Processed", message: message1, preferredStyle: .alert)
+                    let action1 = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    alert1.addAction(action1)
+                    self.present(alert1, animated: true, completion: nil)
+                })
+            })
+        }
+    }
+    
     /*
     // MARK: - Navigation
 
