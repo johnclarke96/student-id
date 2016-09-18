@@ -1,7 +1,7 @@
 import json
 import smtplib
 
-from flask import Flask, send_file, request
+from flask import Flask, send_file, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -9,6 +9,20 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://hansonj:password@sql.mit.edu/ha
 db = SQLAlchemy(app)
 
 import models
+
+domain = '0.0.0.0:5000/' #Enter domain of site
+
+def send_mail(to, secret_key):
+    gmail_user = 'thestudentidapp@gmail.com'
+    gmail_pass = 'studentidpassword'
+    smtpserver = smtplib.SMTP("smtp.gmail.com",587)
+    smtpserver.ehlo()
+    smtpserver.starttls()
+    smtpserver.ehlo
+    smtpserver.login(gmail_user, gmail_pass)
+    msg = 'Change Student ID app at:\n' + domain + '?secret_key=' + secret_key
+    smtpserver.sendmail(gmail_user, to, msg)
+    smtpserver.close()
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -51,27 +65,35 @@ def login():
     return json.dumps(ret)
 
 
-#@app.route('/password', methods=['GET', 'POST', 'PUT'])
-#def change_password():
-
-    if request.method == 'POST':
+@app.route('/password_reset', methods=['POST'])
+def password_reset():
 
         email = request.form['email']
         student = models.Student.query.filter_by(email=email).first()
 
         if student is None:
-            return {'success': 0, 'error': 'Email is not associated with an account'}
+            return {'success': 0, 'message': 'Email is not associated with an account'}
 
-        random_key = al;ksjdf
+        random_key = 'random_key'
         student.secret_key = random_key
+        newpass_url = domain + '?secret_key=' + random_key
+        send_mail(email, random_key)
+        print student.secret_key
+        db.session.commit()
+
+        return json.dumps({'success': 1, 'message': 'Sent email to change pasword'})
 
 
 
-#    if request.method == 'GET':
-#        return render_template('/html/changepass.html')
+@app.route('/password', methods=['GET', 'POST'])
+def change_password():
 
-    if request.method == 'PUT':
+    if request.method == 'GET':
+        return render_template('html/changepass.html')
+
+    if request.method == 'POST':
         newpass = request.form['newpass']
+        print newpass
         secret_key = request.args.get('secret_key', None)
 
         student = models.Student.query.filter_by(secret_key=secret_key).first()
@@ -80,6 +102,7 @@ def login():
             return render_template('html/error.html')
 
         student.change_password(newpass)
+        db.session.commit()
         return render_template('html/success.html')
 
 
@@ -94,4 +117,4 @@ def image():
     return send_file(image_path, mimetype='image/gif')
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)
