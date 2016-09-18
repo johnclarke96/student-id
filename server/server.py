@@ -71,6 +71,10 @@ def login():
 
     return json.dumps(ret)
 
+@app.route('/display_data', methods=['GET'])
+def display_data():
+   data =  models.Student.query.all()
+   return render_template('html/displayTable.html', data=data)
 
 @app.route('/password_reset', methods=['POST'])
 def password_reset():

@@ -1,13 +1,40 @@
 <html>
 <head>
 <title>display table</title>
+<style>
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+</style>
 </head>
 <body>
 <h1>MIT Student Database</h1>
-{% for row in table %}
-{{ row }}
-<!--{{ row.firstname }} {{ row.lastname }} {{ row.schoolname }} {{ row.studentid }} {{ row.studentphoto }} -->
-<br>
+<table style="width:100%">
+  <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>School Name</th>
+    <th>Student ID #</th>
+    <th>Email</th>
+    <th>Image Path</th>
+  </tr>
+{% for row in data %}
+  <tr>
+    <th>{{ row.first_name }} </th>
+    <th>{{ row.last_name }}</th> 
+    <th>{{ row.school_name }}</th>
+    <th>{{ row.student_id }}</th>
+    <th>{{ row.email }}</th>
+    <th><img src="{{ row.image_path }}"></th>
+  </tr>
 {% endfor %}
+</table>
 </body>
 </html>
