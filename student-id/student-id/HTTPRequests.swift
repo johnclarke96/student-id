@@ -24,8 +24,8 @@ class HTTPRequests {
     }
     
     func POST(_ callback: @escaping (_ json: [String:AnyObject]) -> Void) {
-        let url: String = "http://" + host + ":" + port + "/" + resource + "/"
-        Alamofire.request(url, method: .post, parameters: self.params, encoding: JSONEncoding.default).responseJSON { response in
+        let url: String = "http://" + host + ":" + port + "/" + resource
+        Alamofire.request(url, method: .post, parameters: self.params).responseJSON { response in
             switch response.result {
             case .success(let data):
                 let data = data as! [String:AnyObject]
@@ -37,7 +37,7 @@ class HTTPRequests {
     }
     
     func GET(_ callback: @escaping (_ json: [String:AnyObject]) -> Void) {
-        let url: String = "http://" + host + ":" + port + "/" + resource + "/"
+        let url: String = "http://" + host + ":" + port + "/" + resource
         Alamofire.request(url).responseJSON { response in
             switch response.result {
             case .success(let data):
@@ -50,7 +50,7 @@ class HTTPRequests {
     }
     
     func PUT(_ callback: @escaping (_ json: [String:AnyObject]) -> Void) {
-        let url: String = "http://" + host + ":" + port + "/" + resource + "/"
+        let url: String = "http://" + host + ":" + port + "/" + resource
         Alamofire.request(url, method: .put, parameters: self.params, encoding: JSONEncoding.default).responseJSON { response in
             switch response.result {
             case .success(let data):

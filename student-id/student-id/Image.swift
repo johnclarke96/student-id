@@ -29,6 +29,7 @@ class Image {
                     let directory = Image.getDocumentsDirectory().appendingPathComponent("sid")
                     let filename = directory.appendingPathComponent(self.identifier)
                     try? data.write(to: filename)
+                    print("about to call the callback")
                     callback(filename.absoluteString)
                 }
             } else {

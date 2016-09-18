@@ -137,6 +137,7 @@
                         <outlet property="appLabel" destination="UvO-M1-1nw" id="fFe-GF-8Ji"/>
                         <outlet property="emailText" destination="Wxq-2z-87M" id="i65-wA-0A6"/>
                         <outlet property="passwordText" destination="mHX-JX-eK7" id="6L0-DQ-sVf"/>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="to-main" id="oWf-qE-CsZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QeL-vA-VEr" userLabel="First Responder" sceneMemberID="firstResponder"/>
