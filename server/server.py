@@ -39,10 +39,10 @@ def login():
     print student
 
     if student is None:
-        return {'error': 'invalid email'}
+        return json.dumps({'success':0, 'error': 'invalid email'})
 
     if student.password != password:
-        return {'error': 'invalid password'}
+        return json.dumps({'success': 0,'error': 'invalid password'})
 
     first_name = student.first_name
     last_name = student.last_name
