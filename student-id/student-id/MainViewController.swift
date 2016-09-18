@@ -24,30 +24,34 @@ class MainViewController: UIViewController {
         // if first login, call API to gather student information
         
         let name: String = Cache.sharedInstance.firstName + " " + Cache.sharedInstance.lastName
-        //let photo: UIImage = UIImage(contentsOfFile: Cache.sharedInstance.imagePath)!
-        //let photo: UIImage = UIImage(contentsOfFile: "/Users/jaclarke/Desktop/student-id/photos/jaclarke.jpg")!
+        
+        let photo: UIImage = UIImage(contentsOfFile: Cache.sharedInstance.imagePath)!
         
         let sName: String = Cache.sharedInstance.schoolName
         
         let barcodeString: String = Cache.sharedInstance.barcode
         let barcode: Barcode = Barcode(barcode: barcodeString)
         let barcodePhoto = barcode.getBarcode()
-        
-        Alamofire.request(Cache.sharedInstance.imagePath).responseData { response in
-            if let data = response.result.value {
-                let image = UIImage(data: data, scale: 1)!
-                self.studentPhoto.image = image
-            } else {
-                print("Error retrieving image!")
-            }
-        }
 
         studentName.text = name
-        //studentPhoto.image = photo
+        studentPhoto.image = photo
         schoolName.text = sName
         studentBarcode.image = barcodePhoto
     }
+    
+    
+    @IBAction func changePassword(_ sender: AnyObject) {
+        let message: String = "An email to change your password has been sent to " + self.email
+        let alert = UIAlertController(title: "Request Password Change", message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
+    }
 
+    @IBAction func quit(_ sender: AnyObject) {
+        self.navigationController!.popToRootViewController(animated: true)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

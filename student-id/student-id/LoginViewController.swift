@@ -63,7 +63,7 @@ class LoginViewController: UIViewController {
             let data = CoreDataController.sharedInstance.fetchStudentInfo("User", email: emailString)
             self.email = emailString
             if (data.isEmpty) {
-                let http = HTTPRequests(host: "18.22.5.109", port: "5000", resource: "login", params: ["email": emailString, "password" : passwordString])
+                let http = HTTPRequests(host: "18.111.86.205", port: "5000", resource: "login", params: ["email": emailString, "password" : passwordString])
                 http.POST({ (json) -> Void in
                     let success = json["success"] as! Int
                     let data = json["data"] as! [String:AnyObject]
@@ -77,13 +77,12 @@ class LoginViewController: UIViewController {
                         let schoolName = data["school_name"] as! String
                         let imageIdentifier = schoolName + studentID + ".jpg"
                         
-                        let imageURL = "http://18.22.5.109" + ":" + "5000" + "/image?path=" + imagePath
+                        let imageURL = "http://18.111.86.205" + ":" + "5000" + "/image?path=" + imagePath
                         let image = Image(imageURL: imageURL, identifier: imageIdentifier)
                         image.getImageAndSaveToDisk( { (iosPath) -> Void in
                             let data = ["firstName" : firstName, "lastName" : lastName, "schoolName" : schoolName, "studentID" : studentID, "imagePath" : iosPath, "email" : emailString]
                             CoreDataController.sharedInstance.saveToCoreData("User", data: data)
-                            Cache.initCache(firstName: firstName, lastName: lastName, studentID: studentID, schoolName: schoolName, imagePath: imageURL, barcode: studentID)
-                            print(iosPath)
+                            Cache.initCache(firstName: firstName, lastName: lastName, studentID: studentID, schoolName: schoolName, imagePath: iosPath, barcode: studentID)
                             OperationQueue.main.addOperation {
                                 self.emailText.text = ""
                                 self.passwordText.text = ""

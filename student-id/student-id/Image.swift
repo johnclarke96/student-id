@@ -26,11 +26,14 @@ class Image {
             if let data = response.result.value {
                 let image = UIImage(data: data, scale: 1)!
                 if let data = UIImageJPEGRepresentation(image, 0.8) {
-                    let directory = Image.getDocumentsDirectory().appendingPathComponent("sid")
-                    let filename = directory.appendingPathComponent(self.identifier)
-                    try? data.write(to: filename)
+                    let filename = Image.getDocumentsDirectory().appendingPathComponent(self.identifier)
+                    do {
+                        try data.write(to: filename)
+                    } catch {
+                        print("file didn't write")
+                    }
                     print("about to call the callback")
-                    callback(filename.absoluteString)
+                    callback(filename.path)
                 }
             } else {
                 print("Error retrieving image!")

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="djs-mf-Wn8">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="d84-JX-3F3">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -56,11 +56,11 @@
                             <constraint firstItem="byb-AB-TJr" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="76" id="0Al-ZF-SiG"/>
                             <constraint firstAttribute="trailing" secondItem="FO3-YS-2zv" secondAttribute="trailing" constant="258" id="1bf-bB-pCW"/>
                             <constraint firstItem="1Ss-6n-Zx8" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="1gF-33-97l"/>
-                            <constraint firstItem="byb-AB-TJr" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-294" id="JkQ-HN-gQM"/>
+                            <constraint firstItem="byb-AB-TJr" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-207.25" id="JkQ-HN-gQM"/>
                             <constraint firstItem="jma-4Q-bAP" firstAttribute="top" secondItem="1Ss-6n-Zx8" secondAttribute="bottom" constant="29" id="Lkz-8A-0UA"/>
                             <constraint firstAttribute="bottom" secondItem="FO3-YS-2zv" secondAttribute="bottom" constant="589" id="QSA-jd-we6"/>
                             <constraint firstItem="FO3-YS-2zv" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="51" id="S71-Ca-L07"/>
-                            <constraint firstItem="byb-AB-TJr" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="ZS2-rn-EIJ"/>
+                            <constraint firstItem="byb-AB-TJr" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="52" id="ZS2-rn-EIJ"/>
                             <constraint firstItem="gpI-JG-lQm" firstAttribute="top" secondItem="jma-4Q-bAP" secondAttribute="bottom" constant="26" id="eFr-qO-F7i"/>
                             <constraint firstItem="gpI-JG-lQm" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="hse-wM-r3z"/>
                             <constraint firstItem="jma-4Q-bAP" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="1" id="jpg-JN-Sdx"/>
@@ -69,6 +69,20 @@
                             <constraint firstItem="FO3-YS-2zv" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="ypB-4M-pu9"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="CTh-kf-V6L" userLabel="Navigation Item">
+                        <barButtonItem key="leftBarButtonItem" title="Change Password" id="lSM-qI-LSn">
+                            <connections>
+                                <action selector="changePassword:" destination="BYZ-38-t0r" id="ucd-qp-697"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Quit" id="Tii-Dr-VdT">
+                            <connections>
+                                <action selector="quit:" destination="BYZ-38-t0r" id="9ja-id-E3a"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="schoolName" destination="jma-4Q-bAP" id="NM1-xt-gl6"/>
                         <outlet property="studentBarcode" destination="gpI-JG-lQm" id="3rN-Gs-MnB"/>
@@ -78,7 +92,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-146" y="139"/>
+            <point key="canvasLocation" x="792.79999999999995" y="138.98050974512745"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="ee1-4Y-fH3">
@@ -103,12 +117,12 @@
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mHX-JX-eK7">
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Dl-Tt-HuD">
                                 <constraints>
@@ -133,16 +147,35 @@
                             <constraint firstItem="UvO-M1-1nw" firstAttribute="centerX" secondItem="KNu-os-9ny" secondAttribute="centerX" id="zxQ-m1-3II"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="CMe-dP-nas"/>
                     <connections>
                         <outlet property="appLabel" destination="UvO-M1-1nw" id="fFe-GF-8Ji"/>
                         <outlet property="emailText" destination="Wxq-2z-87M" id="i65-wA-0A6"/>
                         <outlet property="passwordText" destination="mHX-JX-eK7" id="6L0-DQ-sVf"/>
-                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="to-main" id="oWf-qE-CsZ"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="to-main" id="oWf-qE-CsZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QeL-vA-VEr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1031" y="139"/>
+            <point key="canvasLocation" x="-92" y="138.98050974512745"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="EBK-CF-vqX">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="d84-JX-3F3" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="h8O-1e-0zt">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="djs-mf-Wn8" kind="relationship" relationship="rootViewController" id="ZBS-9A-6PE"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Shp-2o-miY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1031.2" y="138.98050974512745"/>
         </scene>
     </scenes>
 </document>
