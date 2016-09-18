@@ -34,7 +34,7 @@ class ResetPasswordViewController: UIViewController {
             alert.addAction(action)
             self.present(alert, animated: true, completion: {
                 let params = ["email": self.email.text!]
-                let http = HTTPRequests(host: "52.27.186.224", port: "5000", resource: "password_reset", params: params)
+                let http = HTTPRequests(host: "52.27.186.224", port: "80", resource: "password_reset", params: params)
                 http.POST({ (json) -> Void in
                     let message1 = json["message"] as! String
                     let alert1 = UIAlertController(title: "Request Processed", message: message1, preferredStyle: .alert)
@@ -44,6 +44,12 @@ class ResetPasswordViewController: UIViewController {
                 })
             })
         }
+    }
+    
+    // clicking out of email, password fields dismisses the keyboard
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        view.endEditing(true)
+        super.touchesBegan(touches, with: event)
     }
     
     /*
