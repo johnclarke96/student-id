@@ -3,7 +3,7 @@ import smtplib
 import random
 import os
 
-from flask import Flask, send_file, request, render_template, redirect
+from flask import Flask, send_file, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug import secure_filename
 
@@ -125,9 +125,6 @@ def change_password():
 
 
 
-
-
-
 @app.route('/image', methods=['GET'])
 def image():
     image_path = request.args.get('path', None)
@@ -165,7 +162,15 @@ def student():
 
 
         return 'success'
-        
+@app.route('/student/delete', methods=['POST'])
+def delete():
+    primary_key = request.form['primary_key']
+    user = models.Student.get(primary_key)
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for('display_data'))
+
+
 @app.route('/display_data', methods=['GET'])
 def display_data():
    data =  models.Student.query.all()
