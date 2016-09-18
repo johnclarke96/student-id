@@ -31,11 +31,18 @@ class Student(db.Model):
         return '<User %r>' % self.email
 
 
-#class Admin(db.Model):
+class Admin(db.Model):
 
-    #id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
 
-    #email = db.Column(db.String(120), unique=True)
-    #password = db.Column(db.String(40))
+    username = db.Column(db.String(120), unique=True)
+    password = db.Column(db.String(40))
+
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+
+    def __repr__(self):
+        return self.username
 
 
