@@ -3,14 +3,16 @@ import json
 from flask import Flask, send_file, request
 from flask_sqlalchemy import SQLAlchemy
 
-import models
-
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://hansonj:password@sql.mit.edu/hansonj+student_id'
 db = SQLAlchemy(app)
 
+import models
+
 @app.route('/login', methods=['POST'])
 def login():
+    for i in request.form:
+        print i
 
     student_email = request.form['email']
     password = request.form['password']
