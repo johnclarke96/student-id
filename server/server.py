@@ -31,7 +31,6 @@ def send_mail(to, secret_key):
     smtpserver.sendmail(gmail_user, to, msg)
     smtpserver.close()
 
-
 @app.route('/login', methods=['POST'])
 def login():
     for i in request.form:
@@ -70,11 +69,6 @@ def login():
         }
 
     return json.dumps(ret)
-
-@app.route('/display_data', methods=['GET'])
-def display_data():
-   data =  models.Student.query.all()
-   return render_template('html/displayTable.html', data=data)
 
 @app.route('/password_reset', methods=['POST'])
 def password_reset():
@@ -140,14 +134,12 @@ def image():
 
 
 
-
-
-
 # CMS
 @app.route('/student', methods=['POST', 'GET'])
 def student():
     if request.method == 'GET':
         return render_template('html/inputStudent.html')
+
     if request.method == 'POST':
         print 'here'
         for i in request.form:
@@ -170,7 +162,11 @@ def student():
         send_mail(email, secret_key)
 
         return 'success'
-
+        
+@app.route('/display_data', methods=['GET'])
+def display_data():
+   data =  models.Student.query.all()
+   return render_template('html/displayTable.html', data=data)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)

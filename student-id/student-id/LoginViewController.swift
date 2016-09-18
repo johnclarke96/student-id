@@ -20,7 +20,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         // if first login, call API to gather student information
-        //CoreDataController.sharedInstance.clearCoreData(["User"])
+        CoreDataController.sharedInstance.clearCoreData(["User"])
         appLabel.text = "sid"
     }
     
@@ -63,11 +63,13 @@ class LoginViewController: UIViewController {
             let data = CoreDataController.sharedInstance.fetchStudentInfo("User", email: emailString)
             self.email = emailString
             if (data.isEmpty) {
-                let http = HTTPRequests(host: "18.111.86.205", port: "5000", resource: "login", params: ["email": emailString, "password" : passwordString])
+                let http = HTTPRequests(host: "52.27.186.224", port: "5000", resource: "login", params: ["email": emailString, "password" : passwordString])
                 http.POST({ (json) -> Void in
                     let success = json["success"] as! Int
                     let data = json["data"] as! [String:AnyObject]
+                    print(data)
                     if (success == 1) {
+                        print(json)
                         // save gathered information to coredata
                         let firstName = data["first_name"] as! String
                         let lastName = data["last_name"] as! String
@@ -76,7 +78,7 @@ class LoginViewController: UIViewController {
                         let schoolName = data["school_name"] as! String
                         let imageIdentifier = schoolName + studentID + ".jpg"
                         
-                        let imageURL = "http://18.111.86.205" + ":" + "5000" + "/image?path=" + imagePath
+                        let imageURL = "http://52.27.186.224" + ":" + "5000" + "/image?path=" + imagePath
                         let image = Image(imageURL: imageURL, identifier: imageIdentifier)
                         image.getImageAndSaveToDisk( { (iosPath) -> Void in
                             let data = ["firstName" : firstName, "lastName" : lastName, "schoolName" : schoolName, "studentID" : studentID, "imagePath" : iosPath, "email" : emailString]
@@ -85,6 +87,7 @@ class LoginViewController: UIViewController {
                             OperationQueue.main.addOperation {
                                 self.emailText.text = ""
                                 self.passwordText.text = ""
+                                print("segue!")
                                 self.performSegue(withIdentifier: "to-main", sender: self)
                             }
                         })
@@ -112,7 +115,7 @@ class LoginViewController: UIViewController {
             }
         }
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "to-main" {
             let destination = segue.destination as! MainViewController

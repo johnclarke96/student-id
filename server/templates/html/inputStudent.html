@@ -1,20 +1,38 @@
 <html>
 <head>
 <title>input student</title>
+<style>
+a
+{
+    display:inline-block;
+    margin-right: -4px;
+    padding:0px;
+    color:blue;
+}
+a:link {
+    text-decoration: black;
+    color:blue;
+}
+
+a:visited {
+    text-decoration: blue;
+}
+</style>
 </head>
 <body>
-<form action="student" method="post">
+<b><a href="/display_data">Back to MIT Database</a>
+<br>
+<br>
+<form action="not-made" method="post">
   First name:<br>
-  <input type="text" name="firstname"><br>
+  <input type="text" name="firstname"><br><br>
   Last name:<br>
-  <input type="text" name="lastname"><br>
+  <input type="text" name="lastname"><br><br>
   School name:<br>
-  <input type="text" name="schoolname"><br>
+  <input type="text" name="schoolname"><br><br>
   Student ID #:<br>
-  <input type="text" name="studentid"><br> 
-  Student Email #:<br>
-  <input type="text" name="email"><br>
-  Student Photo:<br>
+  <input type="text" name="studentid"><br><br>
+  Student Photo:<br><br>
   <input type="file" name="pic" accept="image/*"><br><br>
   <input type="submit" value="Submit">
 </form>

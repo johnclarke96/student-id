@@ -20,6 +20,7 @@
 		040760891D8DDD2100B72B9A /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040760881D8DDD2100B72B9A /* CoreDataController.swift */; };
 		0407608B1D8DE21500B72B9A /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407608A1D8DE21500B72B9A /* Image.swift */; };
 		0407608D1D8DEDD000B72B9A /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407608C1D8DEDD000B72B9A /* Cache.swift */; };
+		0407608F1D8E7BDB00B72B9A /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407608E1D8E7BDB00B72B9A /* ResetPasswordViewController.swift */; };
 		4C51D5C91F07BCAF733D46C8 /* Pods_student_id.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17969C96743BFCA6BF198B34 /* Pods_student_id.framework */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +40,7 @@
 		040760881D8DDD2100B72B9A /* CoreDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
 		0407608A1D8DE21500B72B9A /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		0407608C1D8DEDD000B72B9A /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
+		0407608E1D8E7BDB00B72B9A /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		17969C96743BFCA6BF198B34 /* Pods_student_id.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_student_id.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		263125106D577442A4C9FB57 /* Pods-student-id.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-student-id.release.xcconfig"; path = "Pods/Target Support Files/Pods-student-id/Pods-student-id.release.xcconfig"; sourceTree = "<group>"; };
 		51D14453C76EE38A0270E616 /* Pods-student-id.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-student-id.debug.xcconfig"; path = "Pods/Target Support Files/Pods-student-id/Pods-student-id.debug.xcconfig"; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				040760661D8D120D00B72B9A /* AppDelegate.swift */,
 				040760681D8D120D00B72B9A /* MainViewController.swift */,
 				040760841D8D286800B72B9A /* LoginViewController.swift */,
+				0407608E1D8E7BDB00B72B9A /* ResetPasswordViewController.swift */,
 				040760881D8DDD2100B72B9A /* CoreDataController.swift */,
 				0407608C1D8DEDD000B72B9A /* Cache.swift */,
 				0407607D1D8D1BCF00B72B9A /* Barcode.swift */,
@@ -240,6 +243,7 @@
 				040760851D8D286800B72B9A /* LoginViewController.swift in Sources */,
 				0407608B1D8DE21500B72B9A /* Image.swift in Sources */,
 				0407607E1D8D1BCF00B72B9A /* Barcode.swift in Sources */,
+				0407608F1D8E7BDB00B72B9A /* ResetPasswordViewController.swift in Sources */,
 				040760891D8DDD2100B72B9A /* CoreDataController.swift in Sources */,
 				040760691D8D120D00B72B9A /* MainViewController.swift in Sources */,
 				040760831D8D249B00B72B9A /* HTTPRequests.swift in Sources */,
