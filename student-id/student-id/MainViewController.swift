@@ -25,7 +25,7 @@ class MainViewController: UIViewController {
         self.navigationItem.setHidesBackButton(true, animated: false)
 
         let name: String = Cache.sharedInstance.firstName + " " + Cache.sharedInstance.lastName
-
+        print(Cache.sharedInstance.imagePath)
         let photo: UIImage = UIImage(contentsOfFile: Cache.sharedInstance.imagePath)!
         
         let sName: String = Cache.sharedInstance.schoolName

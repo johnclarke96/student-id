@@ -20,7 +20,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         // if first login, call API to gather student information
-        CoreDataController.sharedInstance.clearCoreData(["User"])
+        //CoreDataController.sharedInstance.clearCoreData(["User"])
         appLabel.text = "sid"
     }
     
@@ -81,15 +81,24 @@ class LoginViewController: UIViewController {
                                 let data = ["firstName" : firstName, "lastName" : lastName, "schoolName" : schoolName, "studentID" : studentID, "imagePath" : iosPath, "email" : emailString]
                                 CoreDataController.sharedInstance.saveToCoreData("User", data: data)
                                 Cache.initCache(firstName: firstName, lastName: lastName, studentID: studentID, schoolName: schoolName, imagePath: iosPath)
+                                OperationQueue.main.addOperation {
+                                    self.emailText.text = ""
+                                    self.passwordText.text = ""
+                                    self.performSegue(withIdentifier: "to-main", sender: self)
+                                }
                             })
                         } else {
-                            Cache.initCache(firstName: info["firstName"]!, lastName: info["lastName"]!, studentID: String(describing: info["studentID"]!), schoolName: info["schoolName"]!, imagePath: info["imagePath"]!)
-                        }
-                        
-                        OperationQueue.main.addOperation {
-                            self.emailText.text = ""
-                            self.passwordText.text = ""
-                            self.performSegue(withIdentifier: "to-main", sender: self)
+                            Cache.initCache(firstName: info["firstName"]!, lastName: info["lastName"]!, studentID: info["studentID"]!, schoolName: info["schoolName"]!, imagePath: info["imagePath"]!)
+                            print(Cache.sharedInstance.studentID)
+                            print(Cache.sharedInstance.firstName)
+                            print(Cache.sharedInstance.lastName)
+                            print(Cache.sharedInstance.imagePath)
+                            print(Cache.sharedInstance.schoolName)
+                            OperationQueue.main.addOperation {
+                                self.emailText.text = ""
+                                self.passwordText.text = ""
+                                self.performSegue(withIdentifier: "to-main", sender: self)
+                            }
                         }
                     } else {
                         let error = data["error"] as! String
